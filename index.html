@@ -24,18 +24,13 @@
        fetch('https://script.google.com/macros/s/AKfycbyQPe7nn7yRLmAeLlI1GXEOywCU0D6R2bcFwQuTvhOozPqs-RBuSHaJJI9E2dx_xb3P8A/exec')
             .then(res => res.json())
             .then(data => {
-                let cards = data.content.map(person => {
-                    return `
-                    <div class="card">
-                        <p><strong>First Name:</strong> ${person[0]}</p>
-                        <p><strong>Last Name:</strong> ${person[1]}</p>
-                        <p><strong>Email:</strong> ${person[3]}</p>
-                        <p><strong>Message:</strong> ${person[4]}</p>
-                    </div>
-                    `;
-                }).join("");
-                document.getElementById("cards-container").innerHTML = cards;
-            });
+                let tr = data.content.reduce((prev, cur) => {
+                    let td = cur.map(e => `<td>${e}</td>`)
+                    return prev + `<tr>${td.join("")}</tr>`
+                }, "\r")
+                document.querySelector("table").innerHTML = tr;
+                
+            }); 
     </script>
 </body>
 
